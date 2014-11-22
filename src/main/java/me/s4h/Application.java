@@ -26,7 +26,7 @@ import java.util.Set;
 @ComponentScan
 @EnableAutoConfiguration
 public class Application {
-
+//no shit
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
