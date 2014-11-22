@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.rometools:rome-opml:1.5.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rometools/rome-opml/1.5.0/879bbb22ad01fddbb07b4fd85d0e68909108ec93/rome-opml-1.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rometools/rome-opml/1.5.0/78ec0ec44e278adebf394ba34059666a7a8a0eba/rome-opml-1.5.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

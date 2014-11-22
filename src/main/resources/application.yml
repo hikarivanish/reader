@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql:///st5?useUnicode=true&characterEncoding=utf8
+    username: st5
+    password: st5
+#    driverClassName: com.mysql.jdbc.Driver
+
+  jpa:
+    generateDdl: true
+    showSql: true
+
+  security:
+    basic:
+      enabled: false

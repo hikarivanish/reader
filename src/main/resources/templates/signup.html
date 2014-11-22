@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8" />
+    <title></title>
+</head>
+<body>
+signup here
+
+<form th:action="@{/signup}" th:object="${user}"  action="/signup" method="post">
+    email :<input type="email"   th:field="*{email}"  name="email1" /> <br/>
+    nickname: <input type="text"  th:field="*{nickname}" name="nickname"/> <br/>
+    password: <input type="password"  th:field="*{password}"  name="password"  /> <br/>
+    <input type="submit" value="submit"/>
+
+
+    <ul th:if="${#fields.hasErrors('*')}" >
+        <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+    </ul>
+</form>
+
+</body>
+</html>

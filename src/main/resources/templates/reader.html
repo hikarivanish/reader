@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+reader here
+
+<div th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
+    <div th:if="${currentUser != null}">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Log out"/>
+        </form>
+        <p th:text="${currentUser?.email} + ' ' + ${currentUser?.nickname}">
+            sample_user
+        </p>
+    </div>
+</div>
+
+
+<form th:action="@{/addChannel}" action="/addChannel" method="post">
+    Channel Url: http://<input type="text" name="channelUrl"/> <br/>
+    <input type="submit" value="add"/>
+</form>
+
+<br/>
+Or
+<br/>
+<form method="post"  th:action="@{/uploadOpml}" action="/uploadOpml" enctype="multipart/form-data">
+    <input type="file" name="opmlFile"/>
+    <input type="submit" value="upload"/>
+</form>
+
+</body>
+</html>
