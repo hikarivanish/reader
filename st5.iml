@@ -98,7 +98,5 @@
     <orderEntry type="library" exported="" name="Gradle: com.rometools:rome-utils:1.5.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.jdom:jdom:2.0.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.rometools:rome-opml:1.5.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.springframework.boot:spring-boot-starter-actuator:1.1.9.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.springframework.boot:spring-boot-actuator:1.1.9.RELEASE" level="project" />
   </component>
 </module>
