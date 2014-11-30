@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Created by LENOVO on 2014/11/22.
  */
-@Repository
+@RepositoryRestResource
 public interface RssChannelRepository extends JpaRepository<RssChannel,Long> {
     RssChannel findByUrl(String url);
 }
