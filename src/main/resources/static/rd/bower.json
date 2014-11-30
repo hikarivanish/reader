@@ -1,0 +1,25 @@
+{
+  "name": "myreader",
+  "version": "0.0.0",
+  "homepage": "https://github.com/hikarivanish/reader",
+  "authors": [
+    "hikarivanish <1164964217@qq.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-animate": "1.2.27",
+    "angular-route": "1.2.27",
+    "angular-resource": "1.2.27",
+    "angular-sanitize": "1.2.27",
+    "angular": "1.2.27",
+    "bootstrap": "~3.3.1",
+    "jquery": "~2.1.1"
+  }
+}

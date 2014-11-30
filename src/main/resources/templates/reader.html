@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" ng-app="readerApp">
 <head lang="en">
     <meta charset="UTF-8"/>
-    <title></title>
+    <title>myreader</title>
+    <link rel="stylesheet" href="/rd/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/rd/css/vanishreader.css"/>
 </head>
+<!--
 <body>
-reader here
-
 <div th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
     <div th:if="${currentUser != null}">
         <form th:action="@{/logout}" method="post">
@@ -32,5 +33,80 @@ Or
     <input type="submit" value="upload"/>
 </form>
 
+
+
+
+
+</body>-->
+
+
+<body ng-controller="UserCtrl as user">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MyReader</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <p class="navbar-text navbar-right">
+                <div th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
+                    <div th:if="${currentUser != null}">
+                        <form th:action="@{/logout}" method="post">
+                            <input type="submit" value="Log out"/>
+                        </form>
+                        <p th:text="${currentUser?.email} + ' ' + ${currentUser?.nickname}">
+                            sample_user
+                        </p>
+                    </div>
+                </div>
+            </p>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class='row'>
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">Overview</a></li>
+
+                <li ng-repeat="channel in user.channels" class="channel.channelId"><a
+                        href="#/channel/{{channel.id}}">
+                    {{channel.title}} </a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"
+             ng-view="myview">
+
+        </div>
+
+    </div>
+</div>
+<!-- /.container -->
+
+<!-- <script src="bower_components/jquery/jquery.js"></script> -->
+<script src="/rd/bower_components/angular/angular.min.js"></script>
+<script src="/rd/bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="/rd/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script src="/rd/bower_components/angular-route/angular-route.min.js"></script>
+<script src="/rd/bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="/rd/readerjs/app.js"></script>
+<script src="/rd/readerjs/controllers.js"></script>
+<script src="/rd/readerjs/services.js"></script>
+<!-- <script src="readerjs/filters.js"></script>
+<script src="readerjs/animations.js"></script> -->
 </body>
 </html>

@@ -3,6 +3,7 @@ package me.s4h.controller;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
 import com.rometools.rome.io.WireFeedInput;
+import me.s4h.entity.RssChannel;
 import me.s4h.entity.User;
 import me.s4h.repository.RssChannelRepository;
 import me.s4h.repository.RssItemRepository;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.InputSource;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -35,6 +37,29 @@ public class ReaderController {
     RssItemRepository itemRepository;
     @Autowired
     ReaderService readerService;
+
+
+
+
+    @RequestMapping("/user")
+    @ResponseBody
+    Set<RssChannel> user(@AuthenticationPrincipal User user){
+        return userRepository.findOne(user.getId()).getChannels();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @RequestMapping(value = "/addChannel", method = RequestMethod.POST)
     @ResponseBody
@@ -72,5 +97,9 @@ public class ReaderController {
         }
         return "ok";
     }
+
+
+
+
 
 }

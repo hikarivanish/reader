@@ -21,7 +21,7 @@ public class ReaderSecurityAdapter extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/css/**","/aa/**","/","/signup").permitAll()
+                .antMatchers("/rd/**","/","/signup").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
                 .formLogin().loginPage("/login").failureUrl("/login?error").permitAll()
