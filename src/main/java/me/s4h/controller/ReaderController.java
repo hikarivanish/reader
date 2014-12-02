@@ -48,29 +48,15 @@ public class ReaderController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     @RequestMapping(value = "/addChannel", method = RequestMethod.POST)
-    @ResponseBody
     String addChannel(@AuthenticationPrincipal User user, String channelUrl) {
         try {
             readerService.addChannel(user.getId(), "http://" + channelUrl);
         } catch (Exception e) {
             e.printStackTrace();
-            return "fail";
+            return "error";
         }
-        return "ok";
+        return "redirect:/reader";
     }
 
 
@@ -93,9 +79,9 @@ public class ReaderController {
             });
         } catch (Exception e) {
             e.printStackTrace();
-            return "fail";
+            return "error";
         }
-        return "ok";
+        return "redirect:/reader";
     }
 
 

@@ -59,17 +59,16 @@ Or
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <p class="navbar-text navbar-right">
-                <div th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
-                    <div th:if="${currentUser != null}">
-                        <form th:action="@{/logout}" method="post">
-                            <input type="submit" value="Log out"/>
-                        </form>
-                        <p th:text="${currentUser?.email} + ' ' + ${currentUser?.nickname}">
-                            sample_user
-                        </p>
-                    </div>
-                </div>
+            <p class="navbar-text navbar-right" th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
+
+            <div th:if="${currentUser != null}">
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="Log out"/>
+                </form>
+                <span th:text="${currentUser?.email} + ' ' + ${currentUser?.nickname}">
+                    sample_user
+                </span>
+            </div>
             </p>
         </div>
         <!--/.nav-collapse -->

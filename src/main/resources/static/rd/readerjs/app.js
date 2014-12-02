@@ -11,7 +11,7 @@ readerApp.config([ '$routeProvider', function($routeProvider) {
 		templateUrl : '/rd/partials/itemlist.html',
 		controller : 'ItemListCtrl'
 	}).otherwise({
-		templateUrl : '/rd/partials/default.html',
+		templateUrl : '/partials/default.html',
 		controller : 'DefaultCtrl'
 	});
 } ]);

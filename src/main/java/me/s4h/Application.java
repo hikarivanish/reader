@@ -37,6 +37,7 @@ class MvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/reader").setViewName("reader");
+        registry.addViewController("/partials/default.html").setViewName("/partials/default");
     }
 }
 
