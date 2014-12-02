@@ -1,11 +1,13 @@
 package me.s4h.entity;
 
 import com.rometools.rome.feed.atom.Entry;
+import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by LENOVO on 2014/11/22.
@@ -45,7 +47,10 @@ public class RssItem {
         this.title = entry.getTitle();
         this.updatedDate = entry.getUpdatedDate();
         this.uri = entry.getUri();
-
+        List<SyndContent> contents = entry.getContents();
+        if (contents != null && contents.size() > 0) {
+            this.content = contents.get(0).getValue();
+        }
         this.channel = channel;
     }
 
