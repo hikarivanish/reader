@@ -39,11 +39,9 @@ public class ReaderController {
     ReaderService readerService;
 
 
-
-
     @RequestMapping("/user")
     @ResponseBody
-    Set<RssChannel> user(@AuthenticationPrincipal User user){
+    Set<RssChannel> user(@AuthenticationPrincipal User user) {
         return userRepository.findOne(user.getId()).getChannels();
     }
 
@@ -51,7 +49,10 @@ public class ReaderController {
     @RequestMapping(value = "/addChannel", method = RequestMethod.POST)
     String addChannel(@AuthenticationPrincipal User user, String channelUrl) {
         try {
-            readerService.addChannel(user.getId(), "http://" + channelUrl);
+            if (!channelUrl.startsWith("http://")) {
+                channelUrl = "http://" + channelUrl;
+            }
+            readerService.addChannel(user.getId(), channelUrl);
         } catch (Exception e) {
             e.printStackTrace();
             return "error";
@@ -61,31 +62,15 @@ public class ReaderController {
 
 
     @RequestMapping(value = "/uploadOpml", method = RequestMethod.POST)
-    @ResponseBody
     String uploadOpml(MultipartFile opmlFile, @AuthenticationPrincipal User user) {
         try {
-            WireFeedInput input = new WireFeedInput();
-            Opml feed = (Opml) input.build(new InputSource(opmlFile.getInputStream()));
-            List<Outline> outlines =  feed.getOutlines();
-
-            outlines.forEach(o -> {
-                o.getChildren().forEach(c -> {
-                    try {
-                        readerService.addChannel(user.getId(), c.getXmlUrl());
-                    } catch (Exception e) {
-                        System.out.println("fail to add " + c.getXmlUrl());
-                    }
-                });
-            });
+            readerService.handleOpml(opmlFile.getInputStream(), user.getId());
         } catch (Exception e) {
             e.printStackTrace();
             return "error";
         }
         return "redirect:/reader";
     }
-
-
-
 
 
 }

@@ -11,7 +11,7 @@
       <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
       <column name="author" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="description" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="link" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="link" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="published_date" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="title" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="uri" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
@@ -20,7 +20,6 @@
       <exported-key name="FK_cnx8l1515yl750qist0bwc94a" table="rss_item" schema="" catalog="st5" columns="channel_id"/>
       <exported-key name="FK_r2gaelfyqk2g30rsjglqev11j" table="user_channels" schema="" catalog="st5" columns="channels_id"/>
       <index name="UK_6e7d39rrgiupugi4u2y1qxrid" unique="true" columns="url"/>
-      <index name="UK_pk4nbawvp4wf7mku4jynhhjcr" unique="true" columns="link"/>
     </table>
     <table name="rss_item" schema="" catalog="st5" type="TABLE">
       <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>

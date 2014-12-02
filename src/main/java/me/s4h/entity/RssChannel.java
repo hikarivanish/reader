@@ -25,8 +25,8 @@ public class RssChannel {
     String url; //url to feed xml
 
 
-    @Column(nullable = false, unique = true)
-    String link; //url of the site/host,consider it the identity of the RssChannel class
+//    @Column(nullable = false, unique = true)
+    String link; 
 
     String uri;
     String title;

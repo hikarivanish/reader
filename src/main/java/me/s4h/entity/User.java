@@ -15,7 +15,7 @@ public class User {
     @GeneratedValue
     Long id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<RssChannel> channels = new HashSet<RssChannel>();
 
 

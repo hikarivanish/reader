@@ -10,6 +10,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -25,11 +28,25 @@ import java.util.Set;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
+@EnableAsync
+@EnableScheduling
 public class Application {
-//no shit
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
+
+   // @Scheduled(initialDelay = 20000, fixedDelay = 4000)
+    public void doSomething() {
+        System.out.println("aaaa" + Thread.currentThread().getName());
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
 
 @Configuration
@@ -42,10 +59,8 @@ class MvcConfig extends WebMvcConfigurerAdapter {
 }
 
 
-
-
 //@Component
-class Runner implements CommandLineRunner{
+class Runner implements CommandLineRunner {
     @Autowired
     UserRepository userRepository;
 
