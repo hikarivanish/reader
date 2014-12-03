@@ -41,7 +41,9 @@ public class RssItem {
 
     public RssItem(SyndEntry entry, RssChannel channel) {
         this.author = entry.getAuthor();
-        this.description = entry.getDescription().getValue();
+        if (entry.getDescription() != null) {
+            this.description = entry.getDescription().getValue();
+        }
         this.link = entry.getLink();
         this.publishedDate = entry.getPublishedDate();
         this.title = entry.getTitle();
