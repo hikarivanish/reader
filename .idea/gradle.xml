@@ -12,6 +12,16 @@
           </set>
         </option>
       </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/fetcher" />
+        <option name="gradleHome" value="C:/Program Files/gradle-1.6" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/fetcher" />
+          </set>
+        </option>
+      </GradleProjectSettings>
     </option>
   </component>
 </project>

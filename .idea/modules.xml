@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/fetcher/fetcher.iml" filepath="$PROJECT_DIR$/fetcher/fetcher.iml" />
       <module fileurl="file://$PROJECT_DIR$/st5.iml" filepath="$PROJECT_DIR$/st5.iml" />
     </modules>
   </component>

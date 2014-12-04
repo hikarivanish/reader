@@ -49,8 +49,8 @@ public class Application {
     RssChannelRepository channelRepository;
     @Autowired
     RssItemRepository itemRepository;
-
-    @Scheduled(initialDelay = 15000, fixedDelay = 4000)
+//add this line
+    /*@Scheduled(initialDelay = 15000, fixedDelay = 4000)
     public void doSomething() {
         System.out.println("begin------------");
         List<RssChannel> channels = channelRepository.findAll();
@@ -77,7 +77,7 @@ public class Application {
             }
         }
         System.out.println("finish-------------");
-    }
+    }*/
 
 
 }
