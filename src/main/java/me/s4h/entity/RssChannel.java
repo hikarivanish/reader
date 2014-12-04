@@ -2,6 +2,7 @@ package me.s4h.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rometools.rome.feed.synd.SyndFeed;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -32,6 +33,7 @@ public class RssChannel {
     String title;
     String author;
 //    String imgLink;
+@Type(type = "text")
     String description;
 
     Date publishedDate;

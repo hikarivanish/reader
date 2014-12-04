@@ -1,6 +1,7 @@
 package me.s4h.fetcher.entity;
 
 import com.rometools.rome.feed.synd.SyndFeed;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,13 +24,14 @@ public class RssChannel {
     String url; //url to feed xml
 
 
-//    @Column(nullable = false, unique = true)
-    String link; 
+    //    @Column(nullable = false, unique = true)
+    String link;
 
     String uri;
     String title;
     String author;
-//    String imgLink;
+    //    String imgLink;
+    @Type(type = "text")
     String description;
 
     Date publishedDate;
@@ -44,14 +46,14 @@ public class RssChannel {
 
     Date lastUpdate;
 
-    public void addRssItem(RssItem item){
+    public void addRssItem(RssItem item) {
         this.items.add(item);
     }
 
     public RssChannel() {
     }
 
-    public RssChannel(SyndFeed feed,String url) {
+    public RssChannel(SyndFeed feed, String url) {
         this.uri = feed.getUri();
         this.title = feed.getTitle();
         this.publishedDate = feed.getPublishedDate();
