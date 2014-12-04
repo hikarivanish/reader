@@ -1,6 +1,5 @@
-package me.s4h.entity;
+package me.s4h.fetcher.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rometools.rome.feed.synd.SyndFeed;
 
 import javax.persistence.*;
@@ -17,7 +16,6 @@ public class RssChannel {
     @GeneratedValue
     Long id;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "channel")
     Set<RssItem> items = new HashSet<RssItem>();
 
@@ -35,7 +33,6 @@ public class RssChannel {
     String description;
 
     Date publishedDate;
-
 
     public Date getLastUpdate() {
         return lastUpdate;

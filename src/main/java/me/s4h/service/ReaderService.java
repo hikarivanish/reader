@@ -14,6 +14,7 @@ import me.s4h.entity.User;
 import me.s4h.repository.RssChannelRepository;
 import me.s4h.repository.RssItemRepository;
 import me.s4h.repository.UserRepository;
+import me.s4h.util.FeedUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import sun.net.www.protocol.http.HttpURLConnection;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,16 +46,18 @@ public class ReaderService {
         System.out.println("adding " + channelUrl + " to " + userId);
         RssChannel channel = channelRepository.findByUrl(channelUrl);
         if (channel == null) {
-            URL feedUrl = new URL(channelUrl);
-            URLConnection conn = new HttpURLConnection(feedUrl,null);
-            conn.setConnectTimeout(7000);
-            conn.setReadTimeout(7000);//important
-            SyndFeed feed = new SyndFeedInput().build(new XmlReader(conn));
+            SyndFeed feed = FeedUtil.downloadAndParse(channelUrl);
             channel = new RssChannel(feed, channelUrl);
             channel = channelRepository.save(channel);
+            Date lastUpdate = null;
             for (SyndEntry e : feed.getEntries()) {
                 itemRepository.save(new RssItem(e, channel));
+                if (lastUpdate == null || lastUpdate.before(e.getPublishedDate())) {
+                    lastUpdate = e.getPublishedDate();
+                }
             }
+            channel.setLastUpdate(lastUpdate);
+            channel = channelRepository.save(channel);
         }
         User user = userRepository.findOne(userId);
         user.addRssChannel(channel);
@@ -73,7 +77,7 @@ public class ReaderService {
                         this.addChannel(userId, c.getXmlUrl());
                     } catch (Exception e) {
                         System.out.println("fail to add " + c.getXmlUrl());
-    //                    e.printStackTrace();
+                        //                    e.printStackTrace();
                     }
                 });
             });
