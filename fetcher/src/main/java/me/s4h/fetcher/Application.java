@@ -15,6 +15,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.net.HttpURLConnection;
@@ -26,14 +28,49 @@ import java.util.List;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
+@EnableScheduling
 public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
+    @Scheduled(initialDelay = 7000, fixedRate = 90 * 60 * 1000)
+    void fetch(RssChannelRepository channelRepository,
+               RssItemRepository itemRepository) {
+        System.out.println("begin " + Thread.currentThread().getName());
+        List<RssChannel> channels = channelRepository.findAll();
+        for (RssChannel channel : channels) {
+            try {
+                System.out.println("starting update " + channel.getUrl());
+                Date beforeDate = channel.getPublishedDate();
+                Date lastUpdate = channel.getLastUpdate();
+                System.out.println("lastUpdate " + lastUpdate);
+                SyndFeed feed = FeedUtil.downloadAndParse(channel.getUrl());
+                Date newLastUpdate = lastUpdate;
+                for (SyndEntry e : feed.getEntries()) {
+                    System.out.println("e.getPublishedDate():" + e.getPublishedDate());
+                    if (lastUpdate == null || lastUpdate.before(e.getPublishedDate())) {
+                        itemRepository.save(new RssItem(e, channel));
+                        if (newLastUpdate == null || newLastUpdate.before(e.getPublishedDate())) {
+                            newLastUpdate = e.getPublishedDate();
+                        }
+                        System.out.println("added:" + e.getTitle());
+                    }
+                }
+                channel.setPublishedDate(feed.getPublishedDate());
+                channel.setLastUpdate(newLastUpdate);
+                channel = channelRepository.save(channel);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("end " + Thread.currentThread().getName());
+    }
 }
 
-@Component
+
+//@Component
 class Runner implements CommandLineRunner {
     @Autowired
     RssChannelRepository channelRepository;
@@ -57,7 +94,7 @@ class Runner implements CommandLineRunner {
                 Date newLastUpdate = lastUpdate;
                 for (SyndEntry e : feed.getEntries()) {
                     System.out.println("e.getPublishedDate():" + e.getPublishedDate());
-                    if (lastUpdate == null || !lastUpdate.after(e.getPublishedDate())) {
+                    if (lastUpdate == null || lastUpdate.before(e.getPublishedDate())) {
                         itemRepository.save(new RssItem(e, channel));
                         if (newLastUpdate == null || newLastUpdate.before(e.getPublishedDate())) {
                             newLastUpdate = e.getPublishedDate();
