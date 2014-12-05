@@ -1,5 +1,6 @@
 package me.s4h.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rometools.rome.feed.atom.Entry;
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
@@ -18,6 +19,8 @@ public class RssItem {
     @GeneratedValue
     Long id;
 
+
+    @JsonIgnore
     @ManyToOne
     RssChannel channel;
 

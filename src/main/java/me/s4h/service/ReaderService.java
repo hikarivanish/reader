@@ -44,6 +44,15 @@ public class ReaderService {
     // @Transactional(propagation = Propagation.REQUIRED, timeout = 7)
     public User addChannel(Long userId, String channelUrl) throws Exception {
         System.out.println("adding " + channelUrl + " to " + userId);
+        RssChannel channel = addChannel(channelUrl);
+        User user = userRepository.findOne(userId);
+        user.addRssChannel(channel);
+        return userRepository.save(user);
+    }
+
+
+    private RssChannel addChannel(String channelUrl) throws Exception {
+        System.out.println("adding " + channelUrl);
         RssChannel channel = channelRepository.findByUrl(channelUrl);
         if (channel == null) {
             SyndFeed feed = FeedUtil.downloadAndParse(channelUrl);
@@ -52,40 +61,45 @@ public class ReaderService {
             Date lastUpdate = null;
             for (SyndEntry e : feed.getEntries()) {
                 itemRepository.save(new RssItem(e, channel));
-                if (lastUpdate == null || lastUpdate.before(e.getPublishedDate())) {
+                if (lastUpdate == null ||
+                        (e.getPublishedDate() != null && lastUpdate.before(e.getPublishedDate()))) {
                     lastUpdate = e.getPublishedDate();
                 }
             }
             channel.setLastUpdate(lastUpdate);
             channel = channelRepository.save(channel);
         }
-        User user = userRepository.findOne(userId);
-        user.addRssChannel(channel);
-        return userRepository.save(user);
+        System.gc();
+        return channel;
     }
-
 
     @Async
     public void handleOpml(InputStream in, Long userId) {
+        System.out.println("start opml");
         try {
+            User user = userRepository.findOne(userId);
+
             WireFeedInput input = new WireFeedInput();
             Opml feed = (Opml) input.build(new InputSource(in));
             List<Outline> outlines = feed.getOutlines();
-            outlines.forEach(o -> {
-                o.getChildren().forEach(c -> {
+            for (Outline o : outlines) {
+                for (Outline c : o.getChildren()) {
                     try {
-                        this.addChannel(userId, c.getXmlUrl());
+                        RssChannel channel = this.addChannel(c.getXmlUrl());
+                        user.addRssChannel(channel);
                     } catch (Exception e) {
-                        System.out.println("fail to add " + c.getXmlUrl());
-                        //                    e.printStackTrace();
+                        System.err.println("fail to add " + c.getXmlUrl());
+                        System.err.println(e.getMessage());
                     }
-                });
-            });
+                }
+            }
+            user = userRepository.save(user);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (FeedException e) {
             e.printStackTrace();
         }
+        System.out.println("end opml");
     }
 
 }

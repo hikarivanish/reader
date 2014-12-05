@@ -14,15 +14,16 @@ import java.net.URL;
  * Created by LENOVO on 2014/12/4.
  */
 public class FeedUtil {
-    private FeedUtil(){}
+    private FeedUtil() {
+    }
 
     public static SyndFeed downloadAndParse(String url) throws IOException, FeedException {
         URL feedUrl = new URL(url);
         HttpURLConnection conn = (HttpURLConnection) feedUrl.openConnection();
-        conn.setConnectTimeout(5 * 1000);
+        conn.setConnectTimeout(7 * 1000);
         conn.setRequestProperty("User-Agent",
                 "Mozilla/4.0(compatible;MSIE 5.0;Windows NT;DigExt)");
-        conn.setReadTimeout(5 * 1000);
-       return new SyndFeedInput().build(new XmlReader(conn));
+        conn.setReadTimeout(7 * 1000);
+        return new SyndFeedInput().build(new XmlReader(conn));
     }
 }

@@ -1,12 +1,5 @@
 package me.s4h;
 
-import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.io.FeedException;
-import com.rometools.rome.io.SyndFeedInput;
-import com.rometools.rome.io.XmlReader;
-import me.s4h.entity.RssChannel;
-import me.s4h.entity.RssItem;
 import me.s4h.entity.User;
 import me.s4h.repository.RssChannelRepository;
 import me.s4h.repository.RssItemRepository;
@@ -17,23 +10,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import sun.net.www.protocol.http.HttpURLConnection;
-
-import javax.persistence.*;
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.*;
 
 @Configuration
 @ComponentScan

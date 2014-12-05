@@ -35,22 +35,32 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Scheduled(initialDelay = 7000, fixedRate = 90 * 60 * 1000)
-    void fetch(RssChannelRepository channelRepository,
-               RssItemRepository itemRepository) {
+    @Autowired
+    RssChannelRepository channelRepository;
+    @Autowired
+    RssItemRepository itemRepository;
+
+    @Scheduled(initialDelay = 15000, fixedRate = 90 * 60 * 1000)
+    void fetch() {
         System.out.println("begin " + Thread.currentThread().getName());
         List<RssChannel> channels = channelRepository.findAll();
         for (RssChannel channel : channels) {
             try {
                 System.out.println("starting update " + channel.getUrl());
-                Date beforeDate = channel.getPublishedDate();
-                Date lastUpdate = channel.getLastUpdate();
-                System.out.println("lastUpdate " + lastUpdate);
                 SyndFeed feed = FeedUtil.downloadAndParse(channel.getUrl());
+                Date publishedDate = channel.getPublishedDate();
+                if (publishedDate != null && feed.getPublishedDate() != null
+                        && publishedDate.getTime() == feed.getPublishedDate().getTime()) {
+                    System.out.println("same publish:" + publishedDate);
+                    continue;
+                }
+
+                Date lastUpdate = channel.getLastUpdate();
                 Date newLastUpdate = lastUpdate;
+                System.out.println("lastUpdate " + lastUpdate);
                 for (SyndEntry e : feed.getEntries()) {
-                    System.out.println("e.getPublishedDate():" + e.getPublishedDate());
-                    if (lastUpdate == null || lastUpdate.before(e.getPublishedDate())) {
+                    if (lastUpdate == null ||
+                            (e.getPublishedDate() != null && lastUpdate.before(e.getPublishedDate()))) {
                         itemRepository.save(new RssItem(e, channel));
                         if (newLastUpdate == null || newLastUpdate.before(e.getPublishedDate())) {
                             newLastUpdate = e.getPublishedDate();
@@ -61,10 +71,13 @@ public class Application {
                 channel.setPublishedDate(feed.getPublishedDate());
                 channel.setLastUpdate(newLastUpdate);
                 channel = channelRepository.save(channel);
+                System.gc();
             } catch (Exception e) {
-                e.printStackTrace();
+                System.err.println("faild to update "+channel.getUrl());
+                System.err.println(e.getMessage());
             }
         }
+        System.gc();
         System.out.println("end " + Thread.currentThread().getName());
     }
 }

@@ -1,18 +1,17 @@
 <!--<h1 class="page-header">{{channel.channelId}}</h1>-->
 
 
-<!--<ul class="pager">
-	<li class="previous" ng-show="itemStart!=0"><a href="#/channel/{{channelId}}/{{itemStart-10}}">&larr; Previous</a></li>
-	<li class="next" ng-show="items.length==10"><a href="#/channel/{{channelId}}/{{itemStart- (-10)}}">Next &rarr;</a></li>
-</ul>-->
-<div class='panel panel-primary' ng-repeat="item in items" ng-init="show=false">
+<ul class="pager">
+	<li class="previous" ng-show="!itemPage.firstPage"><a href="#/channel/{{channelId}}/{{itemPage.number-1}}">&larr; Previous</a></li>
+	<li class="next" ng-show="!itemPage.lastPage"><a href="#/channel/{{channelId}}/{{itemPage.number+1}}">Next &rarr;</a></li>
+</ul>
+<div class='panel panel-primary' ng-repeat="item in itemPage.content" ng-init="show=false">
 	<div class='panel-heading'>
-		<h3 class='panel-title'><a ng-click="show=!show">{{item.title}}</a></h3>
+		<h3 class='panel-title'><a ng-click="show=!show">{{item.title}}[{{item.publishedDate | date:'yyyy-MM-dd HH:mm:ss Z'}}]</a></h3>
 	</div>
 	<div class='panel-body' ng-bind-html='item.content?item.content:item.description' ng-show="show"></div>
 </div>
-<!--
 <ul class="pager">
-	<li class="previous" ng-show="itemStart!=0"><a href="#/channel/{{channelId}}/{{itemStart-10}}">&larr; Previous</a></li>
-	<li class="next" ng-show="items.length==10"><a href="#/channel/{{channelId}}/{{itemStart- (-10)}}">Next &rarr;</a></li>
-</ul>-->
+	<li class="previous" ng-show="!itemPage.firstPage"><a href="#/channel/{{channelId}}/{{itemPage.number-1}}">&larr; Previous</a></li>
+	<li class="next" ng-show="!itemPage.lastPage"><a href="#/channel/{{channelId}}/{{itemPage.number+1}}">Next &rarr;</a></li>
+</ul>

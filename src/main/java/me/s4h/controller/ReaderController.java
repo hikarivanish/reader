@@ -4,14 +4,18 @@ import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
 import com.rometools.rome.io.WireFeedInput;
 import me.s4h.entity.RssChannel;
+import me.s4h.entity.RssItem;
 import me.s4h.entity.User;
 import me.s4h.repository.RssChannelRepository;
 import me.s4h.repository.RssItemRepository;
 import me.s4h.repository.UserRepository;
 import me.s4h.service.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,11 +43,18 @@ public class ReaderController {
     ReaderService readerService;
 
 
-    @RequestMapping("/user")
+    @RequestMapping("/user/channels")
     @ResponseBody
-    Set<RssChannel> user(@AuthenticationPrincipal User user) {
+    Set<RssChannel> userChannels(@AuthenticationPrincipal User user) {
         return userRepository.findOne(user.getId()).getChannels();
     }
+
+    @RequestMapping("/rssChannel/{channelId}/items")
+    @ResponseBody
+    Page<RssItem> channelItems(@PathVariable Long channelId, Pageable pageable){
+        return itemRepository.findByChannelId(channelId,pageable);
+    }
+
 
 
     @RequestMapping(value = "/addChannel", method = RequestMethod.POST)

@@ -81,7 +81,7 @@ Or
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="#">Overview</a></li>
 
-                <li ng-repeat="channel in user.channels" class="channel.channelId"><a
+                <li ng-repeat="channel in user.channels" class="{{channel.id==user.channelId?'active':''}}"><a
                         href="#/channel/{{channel.id}}">
                     {{channel.title}} </a></li>
             </ul>
