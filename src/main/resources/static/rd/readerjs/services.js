@@ -18,7 +18,7 @@ readerServices.factory('UserFac', [ '$resource', function($resource) {
 */
 
 readerServices.factory('ItemFac', [ '$resource', function($resource) {
-	return $resource('/rssChannel/:channelId/items?sort=publishedDate,desc&size=40&page=:page',
+	return $resource('/rssChannel/:channelId/items?sort=publishedDate,desc&size=12&page=:page',
 			{}, {
 	});
 } ]);
