@@ -26,17 +26,26 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <p class="navbar-text navbar-right" th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
-
-            <div th:if="${currentUser != null}">
-                <form th:action="@{/logout}" method="post">
-                    <input type="submit" value="Log out"/>
+            <div th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
+                <form class="navbar-form navbar-right"
+                th:if="${currentUser != null}" th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-success">Logout</button>
+                <span type="text" class="btn btn-primary"
+                      th:text="${currentUser?.email} + ' ' + ${currentUser?.nickname}">Sample user</span>
                 </form>
-                <span th:text="${currentUser?.email} + ' ' + ${currentUser?.nickname}">
-                    sample_user
-                </span>
             </div>
-            </p>
+
+            <!--            <p class="navbar-text navbar-right" th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
+
+                        <div th:if="${currentUser != null}">
+                            <form th:action="@{/logout}" method="post">
+                                <input type="submit" value="Log out"/>
+                            </form>
+                            <span th:text="${currentUser?.email} + ' ' + ${currentUser?.nickname}">
+                                sample_user
+                            </span>
+                        </div>
+                        </p>-->
         </div>
         <!--/.nav-collapse -->
     </div>

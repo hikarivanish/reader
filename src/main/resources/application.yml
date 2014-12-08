@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql:///st5?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql:///st5?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false
     username: st5
     password: st5
 #    driverClassName: com.mysql.jdbc.Driver
